@@ -1,4 +1,6 @@
-# AI Datasheet Intelligence Pipeline
+# README
+
+# AI Datasheet Pipeline
 
 **GRAVLOC's MVP wedge: extract structured data from PDF datasheets → enable comparison**
 
@@ -63,6 +65,14 @@ pip install -r requirements.txt
 ```
 gravloc-ai-pipeline/
 ├── src/           # Main source code
+│   ├── cli.py                # CLI entry point
+│   ├── extract/
+│   │   ├── pdf_extractor.py  # PDF text/table extraction
+│   │   └── field_extractor.py # Field extraction rules
+│   ├── pipeline/
+│   │   └── datasheet_pipeline.py # Main pipeline
+│   └── schema/
+│       └── component.py      # Pydantic models
 ├── tests/         # Unit and integration tests
 ├── docs/          # Documentation and ADRs
 ├── models/        # Trained models (Phase 3+)
@@ -78,16 +88,19 @@ gravloc-ai-pipeline/
 
 ```bash
 # Ingest and process a single datasheet
-python -m pipeline.ingest --file path/to/datasheet.pdf
+python -m src.cli path/to/datasheet.pdf
 
-# Run full pipeline on a directory
-python -m pipeline.run --input-dir ./data/input --output-dir ./data/output
+# Process all PDFs in a directory
+python -m src.cli path/to/pdf/directory
 
-# Run tests
-pytest tests/
+# With output directory
+python -m src.cli path/to/datasheet.pdf -o output/
 
-# Start review queue UI (future Phase)
-python -m ui.review
+# Verbose mode
+python -m src.cli path/to/datasheet.pdf -v
+
+# Show schema version
+python -m src.cli --schema
 ```
 
 ---
